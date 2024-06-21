@@ -84,6 +84,24 @@ def user_manager(request):
         return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
+# Modificar Dados
+
+    if request.method == 'PUT':
+
+        nickname = request.data['user_nickname']
+
+        updated_user = User.objects.get(pk=nickname)
+
+        #print(request.data)
+
+        serializer = UserSerializers(updated_user, data=request.data)
+
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_202_ACCEPTED)
+        
+        return Response(status=status.HTTP_400_BAD_REQUEST)
+
 
 
 
